@@ -1,0 +1,15 @@
+.dialogsList {
+    padding: 2rem;
+}
+
+.item a {
+    padding: 1rem;
+    margin: 1rem;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.item a.activeLink {
+    color: gold;
+    font-weight: bold;
+}

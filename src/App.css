@@ -1,0 +1,18 @@
+.app-wrapper{
+  text-align: center;
+  display: grid;
+  /* grid-template-areas: 'header header' 'navbar content';
+  grid-template-rows: 7rem 1fr;
+  grid-template-columns: 2fr 10fr; */
+
+  width: 80%;
+  min-width: 500px;
+  /* border-radius: 25px;
+  margin: auto;
+  margin-top: 3rem;
+  padding: 0;
+  background-color: rgba(255, 255, 255, .7);
+  border: 10px #FFFFFF;
+  overflow: auto;
+  color:#333; */
+}
