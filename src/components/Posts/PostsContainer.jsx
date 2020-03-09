@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Row, Col, Container } from 'reactstrap'
 import {
-  getPostsThunkCreator
+  getPostsThunkCreator,
+  deletePostThunkCreator
 } from '../../redux/posts-reducer'
 import Preloader from '../common/Preloader/Preloader'
 import NewPostContainer from './NewPost/NewPostContainer.jsx'
@@ -18,7 +19,7 @@ const PostsContainer = (props) => {
         <Col md={{ size: 8, offset: 2 }}>
           <NewPostContainer />
           {props.arePostsFetching ? <Preloader /> : null}
-          <Posts posts={props.posts} />
+          <Posts posts={props.posts} deletePost={props.deletePost} />
         </Col>
       </Row>
     </Container>
@@ -28,7 +29,8 @@ const PostsContainer = (props) => {
 PostsContainer.propTypes = {
   posts: PropTypes.array,
   arePostsFetching: PropTypes.bool,
-  requestPosts: PropTypes.func
+  requestPosts: PropTypes.func,
+  deletePost: PropTypes.func
 }
 
 const mapStateToProps = (state) => ({
@@ -36,4 +38,4 @@ const mapStateToProps = (state) => ({
   arePostsFetching: state.postsPage.arePostsFetching
 })
 
-export default connect(mapStateToProps, { requestPosts: getPostsThunkCreator })(PostsContainer)
+export default connect(mapStateToProps, { requestPosts: getPostsThunkCreator, deletePost: deletePostThunkCreator })(PostsContainer)

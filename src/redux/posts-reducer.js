@@ -1,5 +1,7 @@
 
+import moment from 'moment'
 import API from '../services/api'
+import {reset} from 'redux-form'
 
 export const SET_POSTS = 'posts/SET-POSTS'
 export const ADD_POST = 'posts/ADD-POST'
@@ -16,36 +18,63 @@ const initState = {
   arePostsFetching: false
 }
 
-export const getPostsThunkCreator = (userId = 1) => (dispatch) => {
+export const getPostsThunkCreator = (userId = 1) => async (dispatch) => {
   dispatch(setIsFetching(true))
-  API.getPosts().then(
-    response => {
-      dispatch(setIsFetching(false))
-      const posts = response.data.data.posts
-      dispatch(setPosts({ posts }))
-    }
-  )
+  const response = await API.getPosts()
+  if (response.data && response.data.data) {
+    dispatch(setIsFetching(false))
+    const posts = response.data.data.posts
+    dispatch(setPosts({ posts }))
+  }
 }
 
-export const addNewPostThunkCreator = (newPost, userId = 1) => (dispatch) => {
+export const addNewPostThunkCreator = (text, userId = 1) => (dispatch) => {
   dispatch(setIsFetching(true))
   API.getPosts().then(
     response => {
       const posts = response.data.data.posts
+      const newPost = {
+        id: posts.length, 
+        text,
+        datetime: moment().format('YYYY-MM-DD HH:mm')
+      }
       const requestData =
         {
           userId,
-          posts: [...posts, { id: posts.length, text: newPost }]
+          posts: [...posts, newPost]
         }
       API.postPosts(requestData).then(
         response => {
           dispatch(setIsFetching(false))
           const posts = response.data.data.posts
           dispatch(setPosts({ posts }))
+          dispatch(reset('profileNewPost'))
         }
       )
     }
   )
+}
+
+export const deletePostThunkCreator = (postId, userId = 1) => async (dispatch) => {
+  let posts = null
+  dispatch(setIsFetching(true))
+  let response = await API.getPosts()
+  if (response.data && response.data.data) {
+    posts = response.data.data.posts
+    posts = posts.filter((post) => post.id !== postId)
+  }
+  if (posts) {
+    const requestData = {
+      userId,
+      posts
+    }
+    response = await API.postPosts(requestData)
+    dispatch(setIsFetching(false))
+    if (response.data && response.data.data) {
+      const refreshedPosts = response.data.data.posts
+      dispatch(setPosts({ posts: refreshedPosts }))
+    }
+  }
 }
 
 const postsReducer = (state = initState, action) => {
