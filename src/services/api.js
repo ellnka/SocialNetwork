@@ -66,7 +66,7 @@ export default class API {
     return Axios.get(POSTS_URL)
   }
 
-  static postPosts (data) {
+  static putPosts (data) {
     return Axios.put(POSTS_URL, { data })
   }
 }

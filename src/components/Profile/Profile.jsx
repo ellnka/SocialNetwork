@@ -8,8 +8,6 @@ const Profile = (props) => {
       <ProfileInfo
         userProfile={props.userProfile}
         isAuthorizedProfile={props.isAuthorizedProfile}
-        status={props.status}
-        onStatusChanged={props.onStatusChanged}
       />
     </div>
   )
@@ -17,9 +15,7 @@ const Profile = (props) => {
 
 Profile.propTypes = {
   userProfile: PropTypes.object,
-  isAuthorizedProfile: PropTypes.bool,
-  status: PropTypes.string,
-  onStatusChanged: PropTypes.func
+  isAuthorizedProfile: PropTypes.bool
 }
 
 export default Profile

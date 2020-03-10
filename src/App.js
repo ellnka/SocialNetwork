@@ -21,7 +21,9 @@ class App extends React.Component {
   }
 
   render () {
-    if (!this.props.isInit) return <Preloader />
+    if (!this.props.isInit) {
+      return <Preloader />
+    }
 
     return (
       <div className='app-body'>

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { setCurrentPage, getUsersThunkCreator } from './../../redux/users-reducer'
+import { setCurrentPage, getUsersThunkCreator } from './../../../redux/users-reducer'
 
 import Pagination from './Pagination'
 

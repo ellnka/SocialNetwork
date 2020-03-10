@@ -14,7 +14,7 @@ export const initializeThunkCreator = () => (dispatch) => {
     dispatch(setIsInit(true)))
 }
 
-const appReducer = (state = initState, action) => {
+const appReducer = (state = initState, action = {}) => {
   switch (action.type) {
     case SET_INIT: {
       return { ...state, isInit: action.isInit }

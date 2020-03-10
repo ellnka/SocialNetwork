@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Button, Card, CardBody, CardFooter } from 'reactstrap'
 import { required, maxLengthCreator, minLengthCreator } from './../../../utils/validators/validators'
 import TextArea from './../../common/FormControls/TextArea'
+import { NEW_POST_FORM_NAME } from './../../../redux/posts-reducer'
 
 const minLength = minLengthCreator(5)
 const maxLength = maxLengthCreator(30)
@@ -35,4 +36,4 @@ NewPostForm.propTypes = {
   handleSubmit: PropTypes.func
 }
 
-export default reduxForm({ form: 'profileNewPost' })(NewPostForm)
+export default reduxForm({ form: NEW_POST_FORM_NAME })(NewPostForm)

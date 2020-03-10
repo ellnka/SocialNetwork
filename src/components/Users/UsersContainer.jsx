@@ -8,26 +8,26 @@ import {
 } from '../../redux/users-reducer'
 import Users from './Users'
 import Preloader from '../common/Preloader/Preloader'
-import PaginationContainer from './../Pagination/PaginationContainer'
+import PaginationContainer from './../common/Pagination/PaginationContainer'
 import { getUsers, getPageSize, getTotalUserCount, getCurrentPage, getIsFetching } from '../../redux/users-selectors'
 
-const UsersContainer = (props) => {
-  useEffect(() => { props.requestUsers(props.currentPage, props.pageSize) }, [props.currentPage])
+const UsersContainer = ({ users, pageSize, totalUserCount, currentPage, isFetching, requestUsers, setCurrentPage }) => {
+  useEffect(() => { requestUsers(currentPage, pageSize) }, [currentPage, pageSize, requestUsers])
 
   const handleChangePage = (pageNumber) => {
-    props.setCurrentPage(pageNumber)
-    props.requestUsers(pageNumber, props.pageSize)
+    setCurrentPage(pageNumber)
+    requestUsers(pageNumber, pageSize)
   }
 
   return (
     <div>
-      {props.isFetching ? <Preloader /> : null}
-      <PaginationContainer totalUserCount={props.totalUserCount} />
+      {isFetching ? <Preloader /> : null}
+      <PaginationContainer totalUserCount={totalUserCount} />
       <Users
-        totalUserCount={props.totalUserCount}
-        pageSize={props.pageSize}
-        currentPage={props.currentPage}
-        users={props.users}
+        totalUserCount={totalUserCount}
+        pageSize={pageSize}
+        currentPage={currentPage}
+        users={users}
         onHandleChangePage={handleChangePage}
       />
     </div>)

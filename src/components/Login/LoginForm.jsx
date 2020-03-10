@@ -1,56 +1,49 @@
 import React from 'react'
-import { reduxForm, Field } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import PropTypes from 'prop-types'
 import Input from './../common/FormControls/Input'
-import { required } from './../../utils/validators/validators'
+// import { required } from './../../utils/validators/validators'
+import { LOGIN_FORM_NAME } from './../../redux/auth-reducer'
+import { LoginFormInput, LoginFormCheckBox, LoginFormError, LoginFormButton } from './LoginFormFields'
 
-const LoginForm = (props) => {
-  return (
-    <form onSubmit={props.handleSubmit}>
+const LoginForm = ({ error, handleSubmit }) => (
+  <form onSubmit={() => { handleSubmit() }}>
 
-      <div className='form-group row'>
-        <label htmlFor='email_address' className='col-md-4 col-form-label text-md-right'>E-Mail Address</label>
-        <div className='col-md-6'>
-          <Field placeholder='Email' component={Input} name='email' className='form-control' validate={[required]} required autoFocus />
-        </div>
-      </div>
+    <LoginFormInput
+      component={Input}
+      fieldName='email'
+      type='input'
+      placeholder='Email'
+      autoComplete='current-email'
+      //    validate={[required]}
+      required
+      autoFocus
+      label='E-Mail Address'
+    />
 
-      <div className='form-group row'>
-        <label htmlFor='password' className='col-md-4 col-form-label text-md-right'>Password</label>
-        <div className='col-md-6'>
-          <Field placeholder='Password' component={Input} type='password' name='password' className='form-control' validate={[required]} required />
-        </div>
-      </div>
+    <LoginFormInput
+      component={Input}
+      fieldName='password'
+      placeholder='Password'
+      type='password'
+      autoComplete='current-password'
+      //    validate={[required]}
+      required
+      autoFocus
+      label='Password'
+    />
 
-      <div className='form-group row'>
-        <div className='col-md-6 offset-md-4'>
-          <div className='checkbox'>
-            <label>
-              <Field component='input' type='checkbox' name='rememberMe' /> Remember Me
-            </label>
-          </div>
-        </div>
-      </div>
+    <LoginFormCheckBox component='input' fieldName='rememberMe' type='checkbox' label='Remember Me' />
 
-      {props.error &&
-        <div className='form-group row'>
-          <div className='col-md-6 offset-md-4'>
-            <p className='text-danger'> {props.error} </p>
-          </div>
-        </div>}
+    {error && <LoginFormError error={error} />}
 
-      <div className='col-md-6 offset-md-4'>
-        <button type='submit' className='btn btn-primary'>
-          Login
-        </button>
-      </div>
+    <LoginFormButton name='Login' />
 
-    </form>)
-}
+  </form>)
 
 LoginForm.propTypes = {
   error: PropTypes.string,
   handleSubmit: PropTypes.func
 }
 
-export default reduxForm({ form: 'login' })(LoginForm)
+export default reduxForm({ form: LOGIN_FORM_NAME })(LoginForm)

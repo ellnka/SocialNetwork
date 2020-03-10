@@ -7,16 +7,16 @@ import { getUserProfileStatusThunkCreator, changeUserProfileStatusThunkCreator }
 // import withAuthRedirect from '../hoc/withAuthRedirect'
 import ProfileStatus from './ProfileStatus'
 
-const ProfileStatusContainer = (props) => {
+const ProfileStatusContainer = ({ authUserData, status, getStatus, changeStatus }) => {
   useEffect(() => {
-    props.authUserData && props.authUserData.id && props.getStatus(props.authUserData.id)
-  }, [props.authUserData])
+    authUserData && authUserData.id && getStatus(authUserData.id)
+  }, [authUserData, getStatus])
 
   return (
     <ProfileStatus
-      userData={props.authUserData}
-      status={props.status}
-      onStatusChanged={(status) => { props.changeStatus(status) }}
+      userData={authUserData}
+      status={status}
+      onStatusChanged={(status) => { changeStatus(status) }}
     />
   )
 }

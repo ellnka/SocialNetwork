@@ -11,7 +11,7 @@ export const sendMessageThunkCreator = (message) => (dispatch) => {
   dispatch(sendMessage(message))
 }
 
-const messagesReducer = (state = initState, action) => {
+const messagesReducer = (state = initState, action = {}) => {
   switch (action.type) {
     case SEND_MESSAGE: {
       const message = {

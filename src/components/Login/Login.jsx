@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import LoginFrom from './LoginForm'
 
-const Login = (props) => {
+const Login = ({ handleLoginUser }) => {
   const handleLoginSubmit = (values) => {
     if (values.email && values.password) {
-      props.handleLoginUser(values.email, values.password, !!values.rememberMe)
+      handleLoginUser(values.email, values.password, !!values.rememberMe)
     }
   }
 

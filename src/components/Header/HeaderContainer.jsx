@@ -9,21 +9,21 @@ import {
 import Header from './Header'
 import Auth from './Auth'
 
-const HeaderContainer = (props) => {
-  return (
-    <div>
-      <Auth userData={props.userData} handleLogout={props.logoutUser} />
-      <Header userData={props.userData} handleLogout={props.logoutUser} />
-    </div>)
-}
+const HeaderContainer = ({ userData, isAuth, logoutUser }) => (
+  <div>
+    <Auth userData={userData} handleLogout={logoutUser} />
+    <Header userData={userData} handleLogout={logoutUser} isAuth={isAuth} />
+  </div>)
 
 HeaderContainer.propTypes = {
   userData: PropTypes.object,
+  isAuth: PropTypes.bool,
   logoutUser: PropTypes.func
 }
 
 const mapStateToProps = (state) => ({
-  userData: state.auth.userData
+  userData: state.auth.userData,
+  isAuth: state.auth.isAuth
 })
 
 export default connect(mapStateToProps, {

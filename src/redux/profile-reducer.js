@@ -22,41 +22,53 @@ const initState = {
 }
 
 export const getUserProfileThunkCreator = (userId) => async (dispatch) => {
-  dispatch(setIsFetching(true))
-  const response = await API.getUserProfile(userId)
-  if (response.data) {
+  try {
+    dispatch(setIsFetching(true))
+    const response = await API.getUserProfile(userId)
     dispatch(setUserProfile(response.data))
+  } catch (error) {
+    console.error('get profile error', error)
+  } finally {
     dispatch(setIsFetching(false))
   }
 }
 
 export const getUserProfileStatusThunkCreator = (userId) => async (dispatch) => {
-  const response = await API.getUserProfileStatus(userId)
-  if (response.data) {
+  try {
+    const response = await API.getUserProfileStatus(userId)
     dispatch(setStatus(response.data))
+  } catch (error) {
+    console.error('get status error', error)
   }
 }
 
 export const changeUserProfileStatusThunkCreator = (status) => async (dispatch) => {
-  const response = await API.putUserProfileStatus(status)
-  if (response) {
+  try {
+    await API.putUserProfileStatus(status)
     dispatch(setStatus(status))
+  } catch (error) {
+    console.error('put status', error)
   }
 }
 
 export const getAuthUserProfileThunkCreator = () => async (dispatch) => {
-  const response = await API.getAuthUser()
-  if (response.data) {
-    const resultCode = response.data.resultCode
-    if (resultCode === 0) {
-      const userData = response.data && response.data.data
-      getUserProfileThunkCreator(userData.id)(dispatch)
-      dispatch(setIsAuthorizedProfile(!!userData.id))
+  dispatch(setIsFetching(true))
+  try {
+    const response = await API.getAuthUser()
+    if (response.data) {
+      const resultCode = response.data.resultCode
+      if (resultCode === 0) {
+        const userData = response.data && response.data.data
+        getUserProfileThunkCreator(userData.id)(dispatch)
+        dispatch(setIsAuthorizedProfile(!!userData.id))
+      }
     }
+  } finally {
+    dispatch(setIsFetching(false))
   }
 }
 
-const profileReducer = (state = initState, action) => {
+const profileReducer = (state = initState, action = {}) => {
   switch (action.type) {
     case SET_IS_FETCHING: {
       return { ...state, isProfileFetching: action.isFetching }
@@ -75,7 +87,7 @@ const profileReducer = (state = initState, action) => {
     }
     default:
       return state
-  };
+  }
 }
 
 export default profileReducer

@@ -1,7 +1,9 @@
 
 import moment from 'moment'
 import API from '../services/api'
-import {reset} from 'redux-form'
+import { reset } from 'redux-form'
+
+export const NEW_POST_FORM_NAME = 'profileNewPost'
 
 export const SET_POSTS = 'posts/SET-POSTS'
 export const ADD_POST = 'posts/ADD-POST'
@@ -18,66 +20,63 @@ const initState = {
   arePostsFetching: false
 }
 
-export const getPostsThunkCreator = (userId = 1) => async (dispatch) => {
-  dispatch(setIsFetching(true))
-  const response = await API.getPosts()
-  if (response.data && response.data.data) {
+const createNewPost = (text) => ({
+  id: `f${(+(new Date())).toString(16)}`,
+  text,
+  datetime: moment().format('YYYY-MM-DD HH:mm')
+})
+
+const putPosts = async (dispatch, data, formName) => {
+  try {
+    const response = await API.putPosts(data)
     dispatch(setIsFetching(false))
     const posts = response.data.data.posts
     dispatch(setPosts({ posts }))
+    if (formName) {
+      dispatch(reset(formName))
+    }
+  } catch (error) {
+    console.error('put posts error', error)
   }
 }
 
-export const addNewPostThunkCreator = (text, userId = 1) => (dispatch) => {
-  dispatch(setIsFetching(true))
-  API.getPosts().then(
-    response => {
-      const posts = response.data.data.posts
-      const newPost = {
-        id: posts.length, 
-        text,
-        datetime: moment().format('YYYY-MM-DD HH:mm')
-      }
-      const requestData =
-        {
-          userId,
-          posts: [...posts, newPost]
-        }
-      API.postPosts(requestData).then(
-        response => {
-          dispatch(setIsFetching(false))
-          const posts = response.data.data.posts
-          dispatch(setPosts({ posts }))
-          dispatch(reset('profileNewPost'))
-        }
-      )
+const getPosts = async (dispatch) => {
+  try {
+    dispatch(setIsFetching(true))
+    const response = await API.getPosts()
+    let posts = []
+    if (response.data && response.data.data) {
+      dispatch(setIsFetching(false))
+      posts = response.data.data.posts
     }
-  )
+    return posts
+  } catch (error) {
+    console.error('get posts error', error)
+    return null
+  }
+}
+
+export const getPostsThunkCreator = (userId = 1) => async (dispatch) => {
+  const posts = await getPosts(dispatch)
+  dispatch(setPosts({ posts }))
+}
+
+export const addNewPostThunkCreator = (text, userId = 1) => async (dispatch) => {
+  const posts = await getPosts(dispatch)
+  if (posts) {
+    putPosts(dispatch, { userId, posts: [...posts, createNewPost(text)] }, NEW_POST_FORM_NAME)
+  }
 }
 
 export const deletePostThunkCreator = (postId, userId = 1) => async (dispatch) => {
-  let posts = null
-  dispatch(setIsFetching(true))
-  let response = await API.getPosts()
-  if (response.data && response.data.data) {
-    posts = response.data.data.posts
-    posts = posts.filter((post) => post.id !== postId)
-  }
+  let posts = await getPosts(dispatch)
   if (posts) {
-    const requestData = {
-      userId,
-      posts
-    }
-    response = await API.postPosts(requestData)
-    dispatch(setIsFetching(false))
-    if (response.data && response.data.data) {
-      const refreshedPosts = response.data.data.posts
-      dispatch(setPosts({ posts: refreshedPosts }))
-    }
+    posts = posts.filter((post) => post.id !== postId)
+    putPosts(dispatch, { userId, posts: [...posts] })
   }
 }
 
-const postsReducer = (state = initState, action) => {
+const postsReducer = (state = initState, action = {}) => {
   const stateCopy = { ...state }
   switch (action.type) {
     case SET_POSTS: {
@@ -101,7 +100,7 @@ const postsReducer = (state = initState, action) => {
     }
     default:
       return state
-  };
+  }
 }
 
 export default postsReducer

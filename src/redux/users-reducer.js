@@ -37,7 +37,7 @@ export const getUsersThunkCreator = (currentPage, pageSize) => async (dispatch) 
   }
 }
 
-const usersReducer = (state = initState, action) => {
+const usersReducer = (state = initState, action = {}) => {
   switch (action.type) {
     case SET_USERS: {
       return { ...state, users: action.users }

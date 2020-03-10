@@ -14,9 +14,9 @@ const Post = (props) => {
           </div>
         </div>
         <div className='m-l-sm inline-block'>
-          <span> {moment(props.post.datetime, "YYYY-MM-DD HH:mm").fromNow()}</span>
+          <span> {moment(props.post.datetime, 'YYYY-MM-DD HH:mm').fromNow()}</span>
         </div>
-        <button className='btn btn-danger btn-sm float-right' onClick={() => {props.deletePost(props.post.id)}}>X</button>
+        <button className='btn btn-danger btn-sm float-right' onClick={() => { props.deletePost(props.post.id) }}>X</button>
       </CardHeader>
       <CardBody>
         <div>
@@ -34,7 +34,8 @@ const Post = (props) => {
 }
 
 Post.propTypes = {
-  message: PropTypes.string
+  post: PropTypes.object,
+  deletePost: PropTypes.func
 }
 
 export default Post

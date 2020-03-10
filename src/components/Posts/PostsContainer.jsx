@@ -10,16 +10,16 @@ import Preloader from '../common/Preloader/Preloader'
 import NewPostContainer from './NewPost/NewPostContainer.jsx'
 import Posts from './Posts'
 
-const PostsContainer = (props) => {
-  useEffect(() => { props.requestPosts() }, [])
+const PostsContainer = ({ arePostsFetching, posts, requestPosts, deletePost }) => {
+  useEffect(() => { requestPosts() }, [requestPosts])
 
   return (
     <Container>
       <Row>
         <Col md={{ size: 8, offset: 2 }}>
           <NewPostContainer />
-          {props.arePostsFetching ? <Preloader /> : null}
-          <Posts posts={props.posts} deletePost={props.deletePost} />
+          {arePostsFetching && <Preloader />}
+          {!arePostsFetching && <Posts posts={posts} deletePost={deletePost} />}
         </Col>
       </Row>
     </Container>
