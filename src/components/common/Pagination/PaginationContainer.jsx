@@ -6,7 +6,6 @@ import { setCurrentPage, getUsersThunkCreator } from './../../../redux/users-red
 import Pagination from './Pagination'
 
 const PaginationContainer = ({ pageSize, totalUserCount, currentPage, setCurrentPage, getUsers }) => {
-  console.log(currentPage)
 
   const handleChangePage = (pageNumber) => {
     setCurrentPage(pageNumber)

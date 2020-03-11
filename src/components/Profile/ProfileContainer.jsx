@@ -7,17 +7,19 @@ import { getUserProfileThunkCreator, getAuthUserProfileThunkCreator } from '../.
 // import withAuthRedirect from '../hoc/withAuthRedirect'
 import Profile from './Profile'
 import Preloader from '../common/Preloader/Preloader'
-import { getUserProfile, getIsProfileFetching, getIsAuthorizedProfile, getIsAuth, getIsAuthFetching } from '../../redux/profile-selector'
+import { getUserProfile, getIsProfileFetching, getIsAuth, getIsAuthFetching } from '../../redux/profile-selector'
 
 const ProfileContainer = ({
-  userProfile, isProfileFetching, isAuthFetching, isAuthorizedProfile, isAuth, match,
+  userProfile, isProfileFetching, isAuthFetching, isAuth, match,
   requestUserProfile, getAuthUser
 }) => {
+  const isAuthProfile = !match.params.userId
   useEffect(() => {
     if (match.params.userId) {
       requestUserProfile(match.params.userId)
     } else {
       getAuthUser()
+
     }
   }, [match.params.userId])
 
@@ -25,12 +27,12 @@ const ProfileContainer = ({
   const isProfileLoading = match.params.userId && userProfile && +match.params.userId !== +userProfile.userId
 
   if (isProfileFetching || isAuthFetching || isProfileLoading) return <Preloader />
-  if (!isAuthorizedProfile && !isAuth) return <Redirect to='/login' />
+  if (isAuthProfile && !isAuth) return <Redirect to='/login' />
   if (!isProfileFound) return null
   return (
     <Profile
       userProfile={userProfile}
-      isAuthorizedProfile={isAuthorizedProfile}
+      isAuthorizedProfile={isAuthProfile}
     />
   )
 }
@@ -39,7 +41,6 @@ ProfileContainer.propTypes = {
   userProfile: PropTypes.object,
   isProfileFetching: PropTypes.bool,
   isAuthFetching: PropTypes.bool,
-  isAuthorizedProfile: PropTypes.bool,
   isAuth: PropTypes.bool,
   match: PropTypes.object,
   requestUserProfile: PropTypes.func,
@@ -49,7 +50,6 @@ ProfileContainer.propTypes = {
 const mapStateToProps = (state) => ({
   userProfile: getUserProfile(state),
   isProfileFetching: getIsProfileFetching(state),
-  isAuthorizedProfile: getIsAuthorizedProfile(state),
   isAuth: getIsAuth(state),
   isAuthFetching: getIsAuthFetching(state)
 })
