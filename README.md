@@ -1,8 +1,12 @@
-DEMO: https://ellnka.github.io/SocialNetwork
+#### DEMO: https://ellnka.github.io/SocialNetwork
 
-demo login: free@samuraijs.com
+##### demo login: free@samuraijs.com
 
-demo password: free
+##### demo password: free
+
+-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
