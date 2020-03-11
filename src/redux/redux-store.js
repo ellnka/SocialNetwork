@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import ThunkMiddleWare from 'redux-thunk'
 import { reducer as FormReducer } from 'redux-form'
+import { composeWithDevTools } from 'redux-devtools-extension'
 import profileReducer from './profile-reducer'
 import navbarReducer from './navbar-reducer'
 import postsReducer from './posts-reducer'
@@ -20,6 +21,14 @@ const reducers = combineReducers({
   form: FormReducer
 })
 
-const store = createStore(reducers, applyMiddleware(ThunkMiddleWare))
+// const store = createStore(reducers, applyMiddleware(ThunkMiddleWare))
+
+const composeEnhancers = composeWithDevTools({
+  // Specify name here, actionsBlacklist, actionsCreators and other options if needed
+})
+const store = createStore(reducers, /* preloadedState, */ composeEnhancers(
+  applyMiddleware(ThunkMiddleWare)
+  // other store enhancers if any
+))
 window.reduxStore = store
 export default store

@@ -21,16 +21,25 @@ const initState = {
   status: ''
 }
 
-export const getUserProfileThunkCreator = (userId) => async (dispatch) => {
+const getUserProfile = async (userId, dispatch) => {
   try {
     dispatch(setIsFetching(true))
     const response = await API.getUserProfile(userId)
     dispatch(setUserProfile(response.data))
+    dispatch(setUserId(userId))
   } catch (error) {
     console.error('get profile error', error)
   } finally {
     dispatch(setIsFetching(false))
   }
+}
+
+export const getUserProfileThunkCreator = (userId) => (dispatch) => {
+  dispatch(setUserProfile(null))
+  dispatch(setUserId(null))
+  dispatch(setIsAuthorizedProfile(false))
+  dispatch(setIsFetching(true))
+  getUserProfile(userId, dispatch)
 }
 
 export const getUserProfileStatusThunkCreator = (userId) => async (dispatch) => {
@@ -59,7 +68,7 @@ export const getAuthUserProfileThunkCreator = () => async (dispatch) => {
       const resultCode = response.data.resultCode
       if (resultCode === 0) {
         const userData = response.data && response.data.data
-        getUserProfileThunkCreator(userData.id)(dispatch)
+        await getUserProfile(userData.id, dispatch)
         dispatch(setIsAuthorizedProfile(!!userData.id))
       }
     }

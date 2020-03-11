@@ -5,18 +5,20 @@ import { setCurrentPage, getUsersThunkCreator } from './../../../redux/users-red
 
 import Pagination from './Pagination'
 
-const PaginationContainer = (props) => {
+const PaginationContainer = ({ pageSize, totalUserCount, currentPage, setCurrentPage, getUsers }) => {
+  console.log(currentPage)
+
   const handleChangePage = (pageNumber) => {
-    props.setCurrentPage(pageNumber)
-    props.getUsers(pageNumber, props.pageSize)
+    setCurrentPage(pageNumber)
+    getUsers(pageNumber, pageSize)
   }
 
   return (
     <div>
       <Pagination
-        totalUserCount={props.totalUserCount}
-        pageSize={props.pageSize}
-        currentPage={props.currentPage}
+        totalUserCount={totalUserCount}
+        pageSize={pageSize}
+        currentPage={currentPage}
         onHandleChangePage={handleChangePage}
       />
     </div>)

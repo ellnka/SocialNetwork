@@ -22,7 +22,7 @@ const UsersContainer = ({ users, pageSize, totalUserCount, currentPage, isFetchi
   return (
     <div>
       {isFetching ? <Preloader /> : null}
-      <PaginationContainer totalUserCount={totalUserCount} />
+      <PaginationContainer />
       <Users
         totalUserCount={totalUserCount}
         pageSize={pageSize}

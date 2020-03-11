@@ -6,19 +6,20 @@ import PageNext from './PageNext'
 
 const MAX_PAGE_COUNT = 20
 
-const Pagination = (props) => {
-  const pageCount = Math.ceil(props.totalUserCount / props.pageSize)
-  const [page, setPage] = useState(0)
+const Pagination = ({ pageSize, totalUserCount, currentPage, onHandleChangePage }) => {
+  const pageCount = Math.ceil(totalUserCount / pageSize)
+  const initPage = Math.floor(currentPage / MAX_PAGE_COUNT)
+  const [page, setPage] = useState(initPage)
   const pageBlocks = []
 
   const onPreviousPageClick = () => {
     setPage(page - 1)
-    props.onHandleChangePage(pageBlocks[page][0])
+    onHandleChangePage(pageBlocks[page][0])
   }
 
   const onNextPageClick = () => {
     setPage(page + 1)
-    props.onHandleChangePage(pageBlocks[page][0])
+    onHandleChangePage(pageBlocks[page][0])
   }
 
   const renderPagination = () => {
@@ -35,7 +36,7 @@ const Pagination = (props) => {
 
     const items = []
     for (let i = 0; i < pageBlocks[page].length; i++) {
-      const pageItem = <PageItem page={pageBlocks[page][i]} currentPage={props.currentPage} onHandleChangePage={props.onHandleChangePage} />
+      const pageItem = <PageItem page={pageBlocks[page][i]} currentPage={currentPage} onHandleChangePage={onHandleChangePage} />
       items.push(pageItem)
     }
 
@@ -54,7 +55,7 @@ const Pagination = (props) => {
   const pageElements = renderPagination()
   return (
     <div>
-      <ul className='pagination pagination-sm' value={props.totalUserCount}>
+      <ul className='pagination pagination-sm' value={totalUserCount}>
         {pageElements}
       </ul>
     </div>
