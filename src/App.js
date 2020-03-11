@@ -6,14 +6,16 @@ import './scss/styles.scss'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { initializeThunkCreator } from './redux/app-reducer'
+import { withSuspense } from './components/hoc/withSuspense'
 import HeaderContainer from './components/Header/HeaderContainer'
 import NavbarContainer from './components/Navbar/NavbarContainer'
-import ProfileContainer from './components/Profile/ProfileContainer'
-import MessagesContainer from './components/Messages/MessagesContainer'
-import PostsContainer from './components/Posts/PostsContainer'
-import UsersContainer from './components/Users/UsersContainer'
 import LoginContainer from './components/Login/LoginContainer'
 import Preloader from './components/common/Preloader/Preloader'
+
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
+const PostsContainer = React.lazy(() => import('./components/Posts/PostsContainer'))
+const MessagesContainer = React.lazy(() => import('./components/Messages/MessagesContainer'))
+const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'))
 
 class App extends React.Component {
   componentDidMount () {
@@ -26,20 +28,22 @@ class App extends React.Component {
     }
 
     return (
-      <div className='app-body'>
-        <NavbarContainer />
-        <div className='page-content'>
-          <HeaderContainer />
-          <div className='primary-content' role='main' tabIndex='-1'>
-            <Route path='/login' render={() => <LoginContainer />} />
-            <Route path='/profile/:userId' render={() => <ProfileContainer />} />
-            <Route path='/myprofile/' render={() => <ProfileContainer />} />
-            <Route path='/posts' render={() => <PostsContainer />} />
-            <Route path='/messages' render={() => <MessagesContainer />} />
-            <Route path='/users' render={() => <UsersContainer />} />
+      <React.Suspense fallback={<Preloader />}>
+        <div className='app-body'>
+          <NavbarContainer />
+          <div className='page-content'>
+            <HeaderContainer />
+            <div className='primary-content' role='main' tabIndex='-1'>
+              <Route path='/login' render={() => <LoginContainer />} />
+              <Route path='/profile/:userId' render={withSuspense(ProfileContainer)} />
+              <Route path='/myprofile/' render={withSuspense(ProfileContainer)} />
+              <Route path='/posts' render={withSuspense(PostsContainer)} />
+              <Route path='/messages' render={withSuspense(MessagesContainer)} />
+              <Route path='/users' render={() => withSuspense(UsersContainer)} />
+            </div>
           </div>
         </div>
-      </div>
+      </React.Suspense>
     )
   }
 }
