@@ -4,13 +4,13 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
 import { getUserProfileThunkCreator, getAuthUserProfileThunkCreator } from '../../redux/profile-reducer'
+import { getUserProfile, getIsProfileFetching, getIsAuth, getIsAuthFetching, getFollowed } from '../../redux/profile-selector'
 // import withAuthRedirect from '../hoc/withAuthRedirect'
 import Profile from './Profile'
 import Preloader from '../common/Preloader/Preloader'
-import { getUserProfile, getIsProfileFetching, getIsAuth, getIsAuthFetching } from '../../redux/profile-selector'
 
 const ProfileContainer = ({
-  userProfile, isProfileFetching, isAuthFetching, isAuth, match,
+  userProfile, isProfileFetching, followed, isAuthFetching, isAuth, match,
   requestUserProfile, getAuthUser
 }) => {
   const isAuthProfile = !match.params.userId
@@ -19,7 +19,6 @@ const ProfileContainer = ({
       requestUserProfile(match.params.userId)
     } else {
       getAuthUser()
-
     }
   }, [match.params.userId])
 
@@ -34,12 +33,14 @@ const ProfileContainer = ({
       userProfile={userProfile}
       isAuthorizedProfile={isAuthProfile}
       isAuth={isAuth}
+      followed={followed}
     />
   )
 }
 
 ProfileContainer.propTypes = {
   userProfile: PropTypes.object,
+  followed: PropTypes.bool,
   isProfileFetching: PropTypes.bool,
   isAuthFetching: PropTypes.bool,
   isAuth: PropTypes.bool,
@@ -52,7 +53,8 @@ const mapStateToProps = (state) => ({
   userProfile: getUserProfile(state),
   isProfileFetching: getIsProfileFetching(state),
   isAuth: getIsAuth(state),
-  isAuthFetching: getIsAuthFetching(state)
+  isAuthFetching: getIsAuthFetching(state),
+  followed: getFollowed(state)
 })
 
 export default compose(

@@ -6,3 +6,5 @@ export const getStatus = (state) => state.profilePage.status
 export const getIsAuthorizedProfile = (state) => state.profilePage.isAuthorizedProfile
 export const getIsAuth = (state) => state.auth.isAuth
 export const getIsAuthFetching = (state) => state.auth.isFetching
+export const getFollowed = (state) => state.profilePage.followed
+export const getIsFollowStatusFetching = (state) => state.profilePage.isFollowStatusFetching

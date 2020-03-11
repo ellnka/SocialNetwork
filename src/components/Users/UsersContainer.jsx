@@ -11,7 +11,10 @@ import Preloader from '../common/Preloader/Preloader'
 import PaginationContainer from './../common/Pagination/PaginationContainer'
 import { getUsers, getPageSize, getTotalUserCount, getCurrentPage, getIsFetching } from '../../redux/users-selectors'
 
-const UsersContainer = ({ users, pageSize, totalUserCount, currentPage, isFetching, requestUsers, setCurrentPage }) => {
+const UsersContainer = ({
+  users, pageSize, totalUserCount, currentPage, isFetching,
+  requestUsers, setCurrentPage
+}) => {
   useEffect(() => { requestUsers(currentPage, pageSize) }, [currentPage, pageSize, requestUsers])
 
   const handleChangePage = (pageNumber) => {

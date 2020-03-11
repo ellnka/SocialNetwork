@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Card, Button } from 'reactstrap'
+import { Row, Col, Card } from 'reactstrap'
 import avatar from '../../../imgs/avatar.png'
 import ProfileStatusContainer from './../ProfileStatus/ProfileStatusContainer'
+import FollowContainer from '../../common/Follow/FollowProfileContainer'
 
-const ProfileInfo = ({ userProfile, isAuthorizedProfile, isAuth }) => {
+const ProfileInfo = ({ userProfile, isAuthorizedProfile, isAuth, followed }) => {
   return (
     <Card body>
       <div className='text-center'>
@@ -16,7 +17,7 @@ const ProfileInfo = ({ userProfile, isAuthorizedProfile, isAuth }) => {
           <div className='h5 text-muted'>{userProfile.aboutMe}</div>
           <hr />
           <div className='p text-muted'>{isAuthorizedProfile && <ProfileStatusContainer />}</div>
-          <Row className='text-center m-b'>
+          {/*         <Row className='text-center m-b'>
             <Col>
               <strong>230</strong>
               <div className='text-muted'>Followers</div>
@@ -25,8 +26,8 @@ const ProfileInfo = ({ userProfile, isAuthorizedProfile, isAuth }) => {
               <strong>325</strong>
               <div className='text-muted'>Following</div>
             </Col>
-          </Row>
-          {!isAuthorizedProfile && isAuth && <Button block>Follow</Button>}
+          </Row> */}
+          {!isAuthorizedProfile && isAuth && <FollowContainer userId={userProfile.userId} followed={followed} />}
         </div>
       </div>
     </Card>
@@ -36,7 +37,8 @@ const ProfileInfo = ({ userProfile, isAuthorizedProfile, isAuth }) => {
 ProfileInfo.propTypes = {
   userProfile: PropTypes.object,
   isAuth: PropTypes.bool,
-  isAuthorizedProfile: PropTypes.bool
+  isAuthorizedProfile: PropTypes.bool,
+  followed: PropTypes.bool
 }
 
 export default ProfileInfo

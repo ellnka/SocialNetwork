@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import { Card, CardBody, CardHeader, Button } from 'reactstrap'
 // import Avatar from '../../common/Avatar/Avatar'
-import { Card, CardBody, CardHeader } from 'reactstrap'
 
 const Post = (props) => {
   return (
@@ -16,7 +16,7 @@ const Post = (props) => {
         <div className='m-l-sm inline-block'>
           <span> {moment(props.post.datetime, 'YYYY-MM-DD HH:mm').fromNow()}</span>
         </div>
-        <button className='btn btn-danger btn-sm float-right' onClick={() => { props.deletePost(props.post.id) }}>X</button>
+        <Button color='danger' size='sm' className='float-right' onClick={() => { props.deletePost(props.post.id) }}>X</Button>
       </CardHeader>
       <CardBody>
         <div>
