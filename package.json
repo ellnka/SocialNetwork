@@ -2,6 +2,7 @@
   "name": "profile",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://ellnka.github.io/SocialNetwork",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
@@ -32,7 +33,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "profile"
@@ -54,6 +57,7 @@
     "@typescript-eslint/parser": "^2.20.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.8.0",
+    "gh-pages": "^2.2.0",
     "eslint-config-react-app": "^5.2.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-config-standard-react": "^9.2.0",

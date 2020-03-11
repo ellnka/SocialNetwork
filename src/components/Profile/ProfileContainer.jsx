@@ -23,6 +23,7 @@ const ProfileContainer = ({
 
   const isProfileFound = userProfile && userProfile.fullName
   const isProfileLoading = match.params.userId && userProfile && +match.params.userId !== +userProfile.userId
+
   if (isProfileFetching || isAuthFetching || isProfileLoading) return <Preloader />
   if (!isAuthorizedProfile && !isAuth) return <Redirect to='/login' />
   if (!isProfileFound) return null
