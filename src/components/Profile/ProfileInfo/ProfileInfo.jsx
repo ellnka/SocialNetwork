@@ -4,18 +4,18 @@ import { Row, Col, Card, Button } from 'reactstrap'
 import avatar from '../../../imgs/avatar.png'
 import ProfileStatusContainer from './../ProfileStatus/ProfileStatusContainer'
 
-const ProfileInfo = (props) => {
+const ProfileInfo = ({ userProfile, isAuthorizedProfile, isAuth }) => {
   return (
     <Card body>
       <div className='text-center'>
         <div className='m-b'>
-          <img src={props.userProfile.photos.large || avatar} style={{ width: 100 }} className='b-circle' alt='profile' />
+          <img src={userProfile.photos.large || avatar} style={{ width: 100 }} className='b-circle' alt='profile' />
         </div>
         <div>
-          <h2 className='h4'>{props.userProfile.fullName}</h2>
-          <div className='h5 text-muted'>{props.userProfile.aboutMe}</div>
+          <h2 className='h4'>{userProfile.fullName}</h2>
+          <div className='h5 text-muted'>{userProfile.aboutMe}</div>
           <hr />
-          <div className='p text-muted'>{props.isAuthorizedProfile && <ProfileStatusContainer status={props.status} onStatusChanged={props.onStatusChanged} />}</div>
+          <div className='p text-muted'>{isAuthorizedProfile && <ProfileStatusContainer />}</div>
           <Row className='text-center m-b'>
             <Col>
               <strong>230</strong>
@@ -26,7 +26,7 @@ const ProfileInfo = (props) => {
               <div className='text-muted'>Following</div>
             </Col>
           </Row>
-          {!props.isAuthorizedProfile && <Button block>Follow</Button>}
+          {!isAuthorizedProfile && isAuth && <Button block>Follow</Button>}
         </div>
       </div>
     </Card>
@@ -35,9 +35,8 @@ const ProfileInfo = (props) => {
 
 ProfileInfo.propTypes = {
   userProfile: PropTypes.object,
-  isAuthorizedProfile: PropTypes.bool,
-  status: PropTypes.string,
-  onStatusChanged: PropTypes.func
+  isAuth: PropTypes.bool,
+  isAuthorizedProfile: PropTypes.bool
 }
 
 export default ProfileInfo

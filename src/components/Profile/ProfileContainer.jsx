@@ -33,6 +33,7 @@ const ProfileContainer = ({
     <Profile
       userProfile={userProfile}
       isAuthorizedProfile={isAuthProfile}
+      isAuth={isAuth}
     />
   )
 }

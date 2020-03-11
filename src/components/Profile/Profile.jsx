@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 
-const Profile = (props) => {
+const Profile = ({ userProfile, isAuthorizedProfile, isAuth }) => {
   return (
     <div className='container'>
       <ProfileInfo
-        userProfile={props.userProfile}
-        isAuthorizedProfile={props.isAuthorizedProfile}
+        userProfile={userProfile}
+        isAuthorizedProfile={isAuthorizedProfile}
+        isAuth={isAuth}
       />
     </div>
   )
@@ -15,7 +16,8 @@ const Profile = (props) => {
 
 Profile.propTypes = {
   userProfile: PropTypes.object,
-  isAuthorizedProfile: PropTypes.bool
+  isAuthorizedProfile: PropTypes.bool,
+  isAuth: PropTypes.bool
 }
 
 export default Profile
