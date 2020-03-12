@@ -12,26 +12,18 @@ import PaginationContainer from './../common/Pagination/PaginationContainer'
 import { getUsers, getPageSize, getTotalUserCount, getCurrentPage, getIsFetching } from '../../redux/users-selectors'
 
 const UsersContainer = ({
-  users, pageSize, totalUserCount, currentPage, isFetching,
-  requestUsers, setCurrentPage
+  users, pageSize, currentPage, isFetching, isAuth,
+  requestUsers
 }) => {
   useEffect(() => { requestUsers(currentPage, pageSize) }, [currentPage, pageSize, requestUsers])
-
-  const handleChangePage = (pageNumber) => {
-    setCurrentPage(pageNumber)
-    requestUsers(pageNumber, pageSize)
-  }
 
   return (
     <div>
       {isFetching ? <Preloader /> : null}
       <PaginationContainer />
       <Users
-        totalUserCount={totalUserCount}
-        pageSize={pageSize}
-        currentPage={currentPage}
         users={users}
-        onHandleChangePage={handleChangePage}
+        isAuth={isAuth}
       />
     </div>)
 }
@@ -39,11 +31,10 @@ const UsersContainer = ({
 UsersContainer.propTypes = {
   users: PropTypes.array,
   pageSize: PropTypes.number,
-  totalUserCount: PropTypes.number,
   currentPage: PropTypes.number,
   isFetching: PropTypes.bool,
-  requestUsers: PropTypes.func,
-  setCurrentPage: PropTypes.func
+  isAuth: PropTypes.bool,
+  requestUsers: PropTypes.func
 }
 
 const mapStateToProps = (state) => ({
@@ -51,7 +42,8 @@ const mapStateToProps = (state) => ({
   pageSize: getPageSize(state),
   totalUserCount: getTotalUserCount(state),
   currentPage: getCurrentPage(state),
-  isFetching: getIsFetching(state)
+  isFetching: getIsFetching(state),
+  isAuth: state.auth.isAuth
 })
 
 export default connect(

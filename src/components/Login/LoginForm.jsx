@@ -1,39 +1,33 @@
 import React from 'react'
 import { reduxForm } from 'redux-form'
 import PropTypes from 'prop-types'
-import Input from './../common/FormControls/Input'
+
 // import { required } from './../../utils/validators/validators'
 import { LOGIN_FORM_NAME } from './../../redux/auth-reducer'
 import { LoginFormInput, LoginFormCheckBox, LoginFormError, LoginFormButton } from './LoginFormFields'
 
-const LoginForm = ({ error, handleSubmit }) => (
+const LoginForm = ({ error, handleSubmit }, ...props) => (
   <form onSubmit={() => { handleSubmit() }}>
 
     <LoginFormInput
-      component={Input}
       fieldName='email'
       type='input'
       placeholder='Email'
-      autoComplete='current-email'
-      //    validate={[required]}
-      required
-      autoFocus
+      validate={[]} // {[required]}
       label='E-Mail Address'
+      {...props}
     />
 
     <LoginFormInput
-      component={Input}
       fieldName='password'
       placeholder='Password'
       type='password'
-      autoComplete='current-password'
-      //    validate={[required]}
-      required
-      autoFocus
+      validate={[]} // {[required]}
       label='Password'
+      {...props}
     />
 
-    <LoginFormCheckBox component='input' fieldName='rememberMe' type='checkbox' label='Remember Me' />
+    <LoginFormCheckBox fieldName='rememberMe' label='Remember Me' />
 
     {error && <LoginFormError error={error} />}
 

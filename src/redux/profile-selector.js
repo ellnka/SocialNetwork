@@ -1,9 +1,10 @@
 export const getUserProfile = (state) => state.profilePage.userProfile
 export const getIsProfileFetching = (state) => state.profilePage.isProfileFetching
+export const getIsUpdating = (state) => state.profilePage.isUpdating
 export const getAuthUserData = (state) => state.profilePage.userProfile
 export const getUserId = (state) => +state.profilePage.userId
 export const getStatus = (state) => state.profilePage.status
-export const getIsAuthorizedProfile = (state) => state.profilePage.isAuthorizedProfile
+export const getIsOwner = (state) => state.profilePage.isOwner
 export const getIsAuth = (state) => state.auth.isAuth
 export const getIsAuthFetching = (state) => state.auth.isFetching
 export const getFollowed = (state) => state.profilePage.followed

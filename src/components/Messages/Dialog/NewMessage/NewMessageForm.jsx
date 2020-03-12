@@ -1,7 +1,7 @@
 import React from 'react'
-import { reduxForm, Field } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import PropTypes from 'prop-types'
-import TextArea from './../../../common/FormControls/TextArea'
+import { createInputField } from './../../../common/FormControls/FormControls'
 import { required, maxLengthCreator, minLengthCreator } from './../../../../utils/validators/validators'
 import { Button, Card, CardHeader, CardBody, CardFooter } from 'reactstrap'
 
@@ -18,13 +18,7 @@ const NewMessageForm = (props) => {
           </div>
         </CardHeader>
         <CardBody>
-          <Field
-            component={TextArea}
-            validate={[required, maxLength, minLength]}
-            className='form-control'
-            placeholder='Write your message...'
-            name='newMessage'
-          />
+          {createInputField('Write your message...', 'newMessage', [required, maxLength, minLength], { type: 'textarea' })}
         </CardBody>
         <CardFooter>
           <Button color='primary' className='pull-right'>

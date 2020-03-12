@@ -1,19 +1,23 @@
 
 import API from './../services/api'
+import { stopSubmit } from 'redux-form'
 import { requestData } from './generic'
 
-export const SET_USER_PROFILE = 'profile/SET-USER-PROFILE'
-export const SET_USER_ID = 'profile/SET-USER-ID'
-export const SET_IS_FETCHING = 'profile/SET-IS-FETCHING'
-export const SET_STATUS = 'profile/SET-STATUS'
-export const SET_IS_FOLLOW_STATUS_FETCHING = 'profile/SET-IS-FOLLOW-STATUS-FETCHING'
-export const RESET_PROFILE = 'profile/RESET-PROFILE'
+export const NEW_EDIT_PROFILE_FORM_NAME = 'profileDataForm'
+const SET_USER_PROFILE = 'profile/SET-USER-PROFILE'
+const SET_USER_ID = 'profile/SET-USER-ID'
+const SET_IS_FETCHING = 'profile/SET-IS-FETCHING'
+const SET_IS_UPDATING = 'profile/SET-IS-UPDATING'
+const SET_STATUS = 'profile/SET-STATUS'
+const SET_IS_FOLLOW_STATUS_FETCHING = 'profile/SET-IS-FOLLOW-STATUS-FETCHING'
+const RESET_PROFILE = 'profile/RESET-PROFILE'
 const FOLLOW = 'profile/FOLLOW'
 const UNFOLLOW = 'profile/UNFOLLOW'
 
 export const setUserProfile = userProfile => ({ type: SET_USER_PROFILE, userProfile })
 export const setUserId = userId => ({ type: SET_USER_ID, userId })
 export const setIsFetching = isFetching => ({ type: SET_IS_FETCHING, isFetching })
+export const setIsUpdating = isUpdating => ({ type: SET_IS_FETCHING, isUpdating })
 export const setStatus = status => ({ type: SET_STATUS, status })
 export const setIsFollowStatusFetching = isFollowStatusFetching => ({ type: SET_IS_FOLLOW_STATUS_FETCHING, isFollowStatusFetching })
 export const resetProfile = () => ({ type: RESET_PROFILE })
@@ -22,6 +26,7 @@ export const setUnfollowed = (userId) => ({ type: UNFOLLOW, userId })
 
 const initState = {
   isProfileFetching: false,
+  isUpdating: false,
   userProfile: {},
   userId: 2,
   followed: false,
@@ -86,10 +91,37 @@ export const getAuthUserProfileThunkCreator = () => async (dispatch) => {
     const response = await API.getAuthUser()
     if (response.data && response.data.resultCode === 0) {
       const userData = response.data && response.data.data
-      await _getUserProfile(userData.id, dispatch)
+      _getUserProfile(userData.id, dispatch)
     }
   } finally {
     dispatch(setIsFetching(false))
+  }
+}
+
+const getContactError = (error) => {
+  const regExp = /(?<=->).+?(?=\))/g
+  const errorContactField = error.match(regExp)
+  if (errorContactField.length) {
+    const obj = {}
+    obj[errorContactField[0].toLowerCase()] = error
+    return { contacts: obj }
+  }
+  return null
+}
+
+export const changeUserProfileThunkCreator = (data) => async (dispatch) => {
+  dispatch(setIsUpdating(true))
+  try {
+    const response = await API.putUserProfile(data)
+    if (response.data && response.data.resultCode === 0) {
+      _getUserProfile(data.userId, dispatch)
+    } else {
+      // const error = response.data.messages.length ? response.data.messages[0] : 'Something wrong...'
+      const errorArr = response.data && response.data.messages && response.data.messages.map(error => getContactError(error))
+      dispatch(stopSubmit(NEW_EDIT_PROFILE_FORM_NAME, errorArr[0]))
+    }
+  } finally {
+    dispatch(setIsUpdating(false))
   }
 }
 
@@ -109,6 +141,9 @@ const profileReducer = (state = initState, action = {}) => {
   switch (action.type) {
     case SET_IS_FETCHING: {
       return { ...state, isProfileFetching: action.isFetching }
+    }
+    case SET_IS_UPDATING: {
+      return { ...state, isUpdating: action.isUpdating }
     }
     case SET_USER_PROFILE: {
       return { ...state, userProfile: action.userProfile }

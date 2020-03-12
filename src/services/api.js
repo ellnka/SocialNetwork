@@ -42,6 +42,10 @@ export default class API {
     return instance.get(`profile/${userId}`)
   }
 
+  static putUserProfile (data) {
+    return instance.put('profile', data)
+  }
+
   static getUserProfileStatus (userId) {
     return instance.get(`profile/status/${userId}`)
   }

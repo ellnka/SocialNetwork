@@ -31,7 +31,7 @@ const ProfileStatus = (props) => {
   return (
     <div>
       {!editMode &&
-        <div>
+        <div className='p text-muted'>
           <span onDoubleClick={handleStatusDoubleClick}>{props.status || 'Enter your status...'}</span>
         </div>}
 
