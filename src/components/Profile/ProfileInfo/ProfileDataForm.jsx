@@ -3,7 +3,7 @@ import { reduxForm } from 'redux-form'
 import PropTypes from 'prop-types'
 import { Row, Col, Button } from 'reactstrap'
 import { required, maxLengthCreator, minLengthCreator } from '../../../utils/validators/validators'
-import { NEW_EDIT_PROFILE_FORM_NAME } from '../../../redux/profile-reducer'
+import { EDIT_PROFILE_FORM_NAME } from '../../../redux/profile-reducer'
 import ContactInput from './ContactInput'
 import { createInputField } from '../../common/FormControls/FormControls'
 
@@ -52,4 +52,4 @@ ProfileDataForm.propTypes = {
   handleSubmit: PropTypes.func
 }
 
-export default reduxForm({ form: NEW_EDIT_PROFILE_FORM_NAME })(ProfileDataForm)
+export default reduxForm({ form: EDIT_PROFILE_FORM_NAME })(ProfileDataForm)

@@ -7,11 +7,7 @@ import FollowContainer from '../common/Follow/FollowProfileContainer'
 import ProfileData from './ProfileInfo/ProfileData'
 import ProfileDataForm from './ProfileInfo/ProfileDataForm'
 
-const Profile = ({ userProfile, isOwner, isAuth, followed, changeProfile }) => {
-  const [editMode, setEditMode] = React.useState(false)
-  const activateEditMode = () => { setEditMode(true) }
-  const deActivateEditMode = () => { setEditMode(false) }
-
+const Profile = ({ userProfile, isOwner, isAuth, followed, isEdited, changeProfile, setIsEdited }) => {
   const handleProfileFormSubmit = (values) => {
     if (values.fullName) {
       // handleLoginUser(values.email, values.password, !!values.rememberMe)
@@ -25,7 +21,6 @@ const Profile = ({ userProfile, isOwner, isAuth, followed, changeProfile }) => {
         contacts
       }
       changeProfile(data)
-      deActivateEditMode()
     }
   }
 
@@ -37,9 +32,9 @@ const Profile = ({ userProfile, isOwner, isAuth, followed, changeProfile }) => {
         </div>
         <div>
           {isOwner && <ProfileStatusContainer />}
-          {editMode
+          {isEdited
             ? <ProfileDataForm userProfile={userProfile} initialValues={userProfile} onSubmit={handleProfileFormSubmit} />
-            : <ProfileData userProfile={userProfile} activateEditMode={activateEditMode} isOwner={isOwner} />}
+            : <ProfileData userProfile={userProfile} activateEditMode={() => { setIsEdited(true) }} isOwner={isOwner} />}
           {!isOwner && isAuth && <FollowContainer userId={userProfile.userId} followed={followed} />}
         </div>
       </div>
@@ -51,8 +46,10 @@ Profile.propTypes = {
   userProfile: PropTypes.object,
   isAuth: PropTypes.bool,
   isOwner: PropTypes.bool,
+  isEdited: PropTypes.bool,
   followed: PropTypes.bool,
-  changeProfile: PropTypes.func
+  changeProfile: PropTypes.func,
+  setIsEdited: PropTypes.func
 }
 
 export default Profile
