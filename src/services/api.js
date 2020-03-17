@@ -46,6 +46,18 @@ export default class API {
     return instance.put('profile', data)
   }
 
+  static putUserPhoto (photo) {
+    // eslint-disable-next-line no-undef
+    const formData = new FormData()
+    formData.append('image', photo)
+    return instance.put('profile/photo', formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+  }
+
   static getUserProfileStatus (userId) {
     return instance.get(`profile/status/${userId}`)
   }

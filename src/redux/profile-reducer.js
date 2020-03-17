@@ -138,6 +138,15 @@ export const changeUserProfileThunkCreator = (data) => async (dispatch) => {
   dispatch(setIsUpdating(false))
 }
 
+export const changeUserPhotoThunkCreator = (userId, data) => async (dispatch) => {
+  dispatch(setIsUpdating(true))
+  const response = await API.putUserPhoto(data)
+  if (response.data && response.data.resultCode === 0) {
+    _getUserProfile(userId, dispatch)
+  }
+  dispatch(setIsUpdating(false))
+}
+
 export const getUserFollowStatusThunkCreator = (userId) => (dispatch) => {
   _getFollowStatus(userId, dispatch)
 }

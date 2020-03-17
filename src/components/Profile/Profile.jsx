@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card } from 'reactstrap'
-import avatar from '../../imgs/avatar.png'
+import avatar from '../../assets/images/avatar.png'
 import ProfileStatusContainer from './ProfileStatus/ProfileStatusContainer'
 import FollowContainer from '../common/Follow/FollowProfileContainer'
 import ProfileData from './ProfileInfo/ProfileData'
 import ProfileDataForm from './ProfileInfo/ProfileDataForm'
+import ProfilePhoto from './ProfileInfo/ProfilePhoto'
 
-const Profile = ({ userProfile, isOwner, isAuth, followed, isEdited, changeProfile, setIsEdited }) => {
+const Profile = ({ userProfile, isOwner, isAuth, followed, isEdited, changeProfile, changePhoto, setIsEdited }) => {
   const handleProfileFormSubmit = (values) => {
     if (values.fullName) {
       // handleLoginUser(values.email, values.password, !!values.rememberMe)
@@ -29,6 +30,7 @@ const Profile = ({ userProfile, isOwner, isAuth, followed, isEdited, changeProfi
       <div className='text-center'>
         <div className='m-b'>
           <img src={userProfile.photos.large || avatar} style={{ width: 100 }} className='b-circle' alt='profile' />
+          {isOwner && <ProfilePhoto userId={userProfile.userId} changePhoto={changePhoto} />}
         </div>
         <div>
           {isOwner && <ProfileStatusContainer />}
@@ -49,6 +51,7 @@ Profile.propTypes = {
   isEdited: PropTypes.bool,
   followed: PropTypes.bool,
   changeProfile: PropTypes.func,
+  changePhoto: PropTypes.func,
   setIsEdited: PropTypes.func
 }
 

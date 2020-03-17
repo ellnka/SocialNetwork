@@ -121,3 +121,44 @@
 		}
 	}
 }
+
+.uploader-label {
+	display: block;
+	width: 60vw;
+	max-width: 150px;
+	margin: 0 auto;
+	background-color: slateblue;
+	border-radius: 2px;
+	font-size: .75rem;
+	line-height: 2.5em;
+	text-align: center;
+	color: #fff;
+}
+
+.uploader-label:hover {
+	background-color: cornflowerblue;
+}
+
+.uploader-label:active {
+	background-color: mediumaquamarine;
+}
+
+.uploader-input {
+	border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px; 
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.uploader-body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	width: 100vw;
+	margin: 1rem 0;
+}

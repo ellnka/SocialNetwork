@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
-import { getUserProfileThunkCreator, getAuthUserProfileThunkCreator, changeUserProfileThunkCreator, setIsEdited } from '../../redux/profile-reducer'
+import { getUserProfileThunkCreator, getAuthUserProfileThunkCreator, changeUserProfileThunkCreator, setIsEdited, changeUserPhotoThunkCreator } from '../../redux/profile-reducer'
 import { getUserProfile, getIsProfileFetching, getIsAuth, getFollowed, getIsUpdating, getIsEdited } from '../../redux/profile-selector'
 // import withAuthRedirect from '../hoc/withAuthRedirect'
 import Profile from './Profile'
@@ -11,7 +11,7 @@ import Preloader from '../common/Preloader/Preloader'
 
 const ProfileContainer = ({
   userProfile, isProfileFetching, isUpdating, isEdited, followed, isAuth, match,
-  requestUserProfile, getAuthUser, changeProfile, setIsEdited
+  requestUserProfile, getAuthUser, changeProfile, changePhoto, setIsEdited
 }) => {
   useEffect(() => {
     if (match.params.userId) {
@@ -22,9 +22,9 @@ const ProfileContainer = ({
   }, [match.params.userId])
 
   const isAuthProfile = !match.params.userId
-  const isProfileFound = userProfile && userProfile.fullName
+  const isProfileFound = !!(userProfile && userProfile.fullName)
   // TODO: IMPROVE isProfileLoading
-  const isProfileLoading = !isAuthProfile && userProfile && +match.params.userId !== +userProfile.userId
+  const isProfileLoading = !isAuthProfile && isProfileFound && +match.params.userId !== +userProfile.userId
   if (!isEdited && (isProfileFetching || isProfileLoading || isUpdating)) return <Preloader />
   if (isAuthProfile && !isAuth) return <Redirect to='/login' />
   if (!isProfileFound) return null
@@ -36,6 +36,7 @@ const ProfileContainer = ({
       isAuth={isAuth}
       followed={followed}
       changeProfile={changeProfile}
+      changePhoto={changePhoto}
       isEdited={isEdited}
       setIsEdited={setIsEdited}
     />
@@ -53,6 +54,7 @@ ProfileContainer.propTypes = {
   requestUserProfile: PropTypes.func,
   getAuthUser: PropTypes.func,
   changeProfile: PropTypes.func,
+  changePhoto: PropTypes.func,
   setIsEdited: PropTypes.func
 }
 
@@ -70,7 +72,8 @@ export default compose(
     requestUserProfile: getUserProfileThunkCreator,
     changeProfile: changeUserProfileThunkCreator,
     getAuthUser: getAuthUserProfileThunkCreator,
-    setIsEdited
+    setIsEdited,
+    changePhoto: changeUserPhotoThunkCreator
   }),
   withRouter
 // withAuthRedirect
