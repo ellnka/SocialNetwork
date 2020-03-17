@@ -1,3 +1,5 @@
+#### IN PROGRESS....
+
 #### DEMO: https://ellnka.github.io/SocialNetwork
 
 ##### demo login: free@samuraijs.com
