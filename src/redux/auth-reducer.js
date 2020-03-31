@@ -38,8 +38,6 @@ export const getAuthUserThunkCreator = () => (dispatch) => {
 }
 
 export const loginUserThunkCreator = (email, password, rememberMe) => async (dispatch) => {
-  dispatch(setIsFetching(true))
-
   const response = await API.loginUser(email, password, rememberMe)
   const resultCode = response.data && response.data.resultCode
   if (resultCode === 0) {

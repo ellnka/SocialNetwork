@@ -3,15 +3,15 @@ import style from './DialogsList.module.css'
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-const DialogsList = (props) => {
-  const items = props.dialogs.map((item, i) => (
+const DialogsList = ({ dialogs }) => {
+  const items = dialogs.map((item, i) => (
     <div className={style.item + ' list-group-item'} key={i}>
       <NavLink
-        to={`/dialogs/${item.id}`}
+        to={`/messages/${item.id}`}
         activeClassName={style.activeLink}
         key={i}
       >
-        {item.user}
+        {item.userName}
       </NavLink>
     </div>
   ))

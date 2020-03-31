@@ -7,6 +7,7 @@ import FollowContainer from '../common/Follow/FollowProfileContainer'
 import ProfileData from './ProfileInfo/ProfileData'
 import ProfileDataForm from './ProfileInfo/ProfileDataForm'
 import ProfilePhoto from './ProfileInfo/ProfilePhoto'
+import SendMessageContainer from './../common/SendMessage/SendMessageContainer'
 
 const Profile = ({ userProfile, isOwner, isAuth, followed, isEdited, changeProfile, changePhoto, setIsEdited }) => {
   const handleProfileFormSubmit = (values) => {
@@ -37,7 +38,11 @@ const Profile = ({ userProfile, isOwner, isAuth, followed, isEdited, changeProfi
           {isEdited
             ? <ProfileDataForm userProfile={userProfile} initialValues={userProfile} onSubmit={handleProfileFormSubmit} />
             : <ProfileData userProfile={userProfile} activateEditMode={() => { setIsEdited(true) }} isOwner={isOwner} />}
-          {!isOwner && isAuth && <FollowContainer userId={userProfile.userId} followed={followed} />}
+          <div className='btn-group'>
+            {!isOwner && isAuth && <FollowContainer userId={userProfile.userId} followed={followed} />}
+            <div className='mr-2' />
+            {!isOwner && isAuth && <SendMessageContainer user={userProfile} />}
+          </div>
         </div>
       </div>
     </Card>

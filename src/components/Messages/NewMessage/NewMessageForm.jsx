@@ -1,8 +1,8 @@
 import React from 'react'
 import { reduxForm } from 'redux-form'
 import PropTypes from 'prop-types'
-import { createInputField } from './../../../common/FormControls/FormControls'
-import { required, maxLengthCreator, minLengthCreator } from './../../../../utils/validators/validators'
+import { createInputField } from './../../common/FormControls/FormControls'
+import { required, maxLengthCreator, minLengthCreator } from './../../../utils/validators/validators'
 import { Button, Card, CardHeader, CardBody, CardFooter } from 'reactstrap'
 
 const maxLength = maxLengthCreator(30)

@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {
-  setUsers,
-  setCurrentPage,
-  getUsersThunkCreator
-} from '../../redux/users-reducer'
+import { setUsers, setCurrentPage, getUsersThunkCreator } from '../../redux/users-reducer'
 import Users from './Users'
 import Preloader from '../common/Preloader/Preloader'
 import PaginationContainer from './../common/Pagination/PaginationContainer'

@@ -78,6 +78,18 @@ export default class API {
     return instance.delete(`follow/${userId}`, { userId })
   }
 
+  static getDialogs () {
+    return instance.get('dialogs')
+  }
+
+  static getDialog (userId) {
+    return instance.get(`dialogs/${userId}/messages`)
+  }
+
+  static postMessage (userId, body) {
+    return instance.post(`dialogs/${userId}/messages`, { body })
+  }
+
   static getPosts () {
     return Axios.get(POSTS_URL)
   }
